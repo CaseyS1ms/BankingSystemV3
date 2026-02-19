@@ -1,0 +1,82 @@
+package com.caseysims.bankingsystemv3;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.Optional;
+
+@Service
+public class AccountService
+{
+    @Autowired
+    AccountRepository accountRepository;
+    @Autowired
+    TransactionHistoryRepository transactionHistoryRepository;
+
+
+
+    void createAccount(String name)
+    {
+        Account account = new Account(name);
+        accountRepository.save(account);
+    }
+
+    Optional<Account> getAccount(long id)
+    {
+        return accountRepository.findById(id);
+
+    }
+
+    Optional<TransactionHistory> getHistory(long id)
+    {
+        return transactionHistoryRepository.findById(id);
+    }
+
+    boolean deposit(int amount, long id)
+    {
+        Optional<Account> temp = getAccount(id);
+        Account account = temp.get();
+        int balance = account.getBalance();
+        int increment = balance + amount;
+        account.setBalance(increment);
+        accountRepository.save(account);
+        createHistory("Deposit",account, amount);
+        return true;
+
+    }
+
+    boolean withdraw(int amount, long id)
+    {
+        Optional<Account> temp = getAccount(id);
+        Account account = temp.get();
+        int balance = account.getBalance();
+        if(balance < amount)
+        {
+            return false;
+        }
+
+        int decrement = balance - amount;
+        account.setBalance(decrement);
+        accountRepository.save(account);
+        createHistory("Withdraw",account, amount);
+        return true;
+    }
+
+    boolean transferFunds(long senderID,long recipientID, int amount)
+    {
+        if (!withdraw(amount,senderID))
+        {
+            return false;
+        }
+        deposit(amount,recipientID);
+        return true;
+
+    }
+
+    void createHistory(String type, Account account, int amount)
+    {
+        TransactionHistory transactionHistory = new TransactionHistory(type,LocalDateTime.now(),account,amount);
+        transactionHistoryRepository.save(transactionHistory);
+    }
+}
