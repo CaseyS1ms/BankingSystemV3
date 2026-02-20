@@ -1,4 +1,4 @@
-package com.caseysims.bankingsystemv3;
+package com.caseysims.bankingsystemv3.security;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -14,7 +14,7 @@ public class JwtUtil
     private final Key secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
 
-    String generateToken(long id)
+    public String generateToken(long id)
     {
         return Jwts.builder()
                 .setSubject(String.valueOf(id))
@@ -24,7 +24,7 @@ public class JwtUtil
                 .compact();
     }
 
-    Long extractUserID(String token)
+    public Long extractUserID(String token)
     {
         return Long.parseLong(Jwts.parser()
                 .setSigningKey(secretKey)
@@ -33,7 +33,7 @@ public class JwtUtil
                 .getSubject());
     }
 
-    Boolean validateToken(String token)
+    public Boolean validateToken(String token)
     {
         try
         {

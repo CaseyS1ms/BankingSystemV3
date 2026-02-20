@@ -1,4 +1,4 @@
-package com.caseysims.bankingsystemv3;
+package com.caseysims.bankingsystemv3.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

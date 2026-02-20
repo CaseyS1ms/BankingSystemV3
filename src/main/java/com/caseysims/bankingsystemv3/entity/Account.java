@@ -1,4 +1,4 @@
-package com.caseysims.bankingsystemv3;
+package com.caseysims.bankingsystemv3.entity;
 
 import jakarta.persistence.*;
 

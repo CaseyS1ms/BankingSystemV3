@@ -1,5 +1,8 @@
-package com.caseysims.bankingsystemv3;
+package com.caseysims.bankingsystemv3.controller;
 
+import com.caseysims.bankingsystemv3.repository.UserRepository;
+import com.caseysims.bankingsystemv3.service.UserService;
+import com.caseysims.bankingsystemv3.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

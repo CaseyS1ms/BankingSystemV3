@@ -1,5 +1,11 @@
-package com.caseysims.bankingsystemv3;
+package com.caseysims.bankingsystemv3.service;
 
+import com.caseysims.bankingsystemv3.entity.TransactionHistory;
+import com.caseysims.bankingsystemv3.repository.TransactionHistoryRepository;
+import com.caseysims.bankingsystemv3.entity.User;
+import com.caseysims.bankingsystemv3.entity.Account;
+import com.caseysims.bankingsystemv3.exception.AccountNotFoundException;
+import com.caseysims.bankingsystemv3.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,20 +23,20 @@ public class AccountService
 
 
 
-    void createAccount(User user)
+    public void createAccount(User user)
     {
         Account account = new Account();
         account.setUser(user);
         accountRepository.save(account);
     }
 
-    Optional<Account> getAccount(long id)
+    public Optional<Account> getAccount(long id)
     {
         return accountRepository.findById(id);
 
     }
 
-    List<TransactionHistory> getHistory(long id)
+    public List<TransactionHistory> getHistory(long id)
     {
         Optional<Account> temp = getAccount(id);
         if(temp.isEmpty())
@@ -41,7 +47,7 @@ public class AccountService
         return transactionHistoryRepository.findByAccount(account);
     }
 
-    boolean deposit(int amount, long id)
+    public boolean deposit(int amount, long id)
     {
         Optional<Account> temp = getAccount(id);
         if(temp.isEmpty())
@@ -58,7 +64,7 @@ public class AccountService
 
     }
 
-    boolean withdraw(int amount, long id)
+    public boolean withdraw(int amount, long id)
     {
         Optional<Account> temp = getAccount(id);
         if(temp.isEmpty())
@@ -79,7 +85,7 @@ public class AccountService
         return true;
     }
 
-    boolean transferFunds(long senderID,long recipientID, int amount)
+    public boolean transferFunds(long senderID,long recipientID, int amount)
     {
         if (!withdraw(amount,senderID))
         {
@@ -90,7 +96,7 @@ public class AccountService
 
     }
 
-    void createHistory(String type, Account account, int amount)
+    public void createHistory(String type, Account account, int amount)
     {
         TransactionHistory transactionHistory = new TransactionHistory(type,LocalDateTime.now(),account,amount);
         transactionHistoryRepository.save(transactionHistory);
