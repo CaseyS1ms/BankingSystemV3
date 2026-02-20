@@ -17,9 +17,10 @@ public class AccountService
 
 
 
-    void createAccount(String name)
+    void createAccount(User user)
     {
-        Account account = new Account(name);
+        Account account = new Account();
+        account.setUser(user);
         accountRepository.save(account);
     }
 

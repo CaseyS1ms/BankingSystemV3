@@ -30,9 +30,9 @@ public class AccountController
     }
 
     @PostMapping("createAccount")
-    public String createAccount(@RequestBody Account account)
+    public String createAccount(@RequestBody User user)
     {
-        accountService.createAccount(account.getName());
+        accountService.createAccount(user);
         return "Success";
     }
 

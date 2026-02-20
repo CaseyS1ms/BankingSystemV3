@@ -29,3 +29,6 @@ A full stack banking application built with Spring Boot and React (in developmen
 - [ ] Authentication with JWT
 - [ ] Input validation
 - [ ] Junit tests
+
+
+

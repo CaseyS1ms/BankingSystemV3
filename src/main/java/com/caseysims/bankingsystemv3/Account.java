@@ -16,25 +16,22 @@ public class Account
     @OneToMany(mappedBy = "account")
     private List<TransactionHistory> transactions;
 
-    private String name;
-    private int balance;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    Account(String name)
-    {
-    this.name = name;
-    this.balance = 0;
-    }
+
+    private int balance;
 
     public Account()
     {
-
+        this.balance = 0;
     }
 
 
 
-    public String getName() {
-        return name;
-    }
+
+
 
     public int getBalance() {
         return balance;
@@ -42,5 +39,9 @@ public class Account
 
     public void setBalance(int balance) {
         this.balance = balance;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }//end of Account class
