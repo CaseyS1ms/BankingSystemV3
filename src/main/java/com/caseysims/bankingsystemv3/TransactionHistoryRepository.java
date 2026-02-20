@@ -2,5 +2,9 @@ package com.caseysims.bankingsystemv3;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface TransactionHistoryRepository extends JpaRepository<TransactionHistory, Long> {
+import java.util.List;
+
+public interface TransactionHistoryRepository extends JpaRepository<TransactionHistory, Long>
+{
+    List<TransactionHistory> findByAccount(Account account);
 }

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -28,14 +29,24 @@ public class AccountService
 
     }
 
-    Optional<TransactionHistory> getHistory(long id)
+    List<TransactionHistory> getHistory(long id)
     {
-        return transactionHistoryRepository.findById(id);
+        Optional<Account> temp = getAccount(id);
+        if(temp.isEmpty())
+        {
+            throw new AccountNotFoundException("Account with ID " + id + " cannot be found");
+        }
+        Account account = temp.get();
+        return transactionHistoryRepository.findByAccount(account);
     }
 
     boolean deposit(int amount, long id)
     {
         Optional<Account> temp = getAccount(id);
+        if(temp.isEmpty())
+        {
+            throw new AccountNotFoundException("Account with ID " + id + " cannot be found");
+        }
         Account account = temp.get();
         int balance = account.getBalance();
         int increment = balance + amount;
@@ -49,6 +60,10 @@ public class AccountService
     boolean withdraw(int amount, long id)
     {
         Optional<Account> temp = getAccount(id);
+        if(temp.isEmpty())
+        {
+            throw new AccountNotFoundException("Account with ID " + id + " cannot be found");
+        }
         Account account = temp.get();
         int balance = account.getBalance();
         if(balance < amount)
@@ -79,4 +94,5 @@ public class AccountService
         TransactionHistory transactionHistory = new TransactionHistory(type,LocalDateTime.now(),account,amount);
         transactionHistoryRepository.save(transactionHistory);
     }
+
 }
