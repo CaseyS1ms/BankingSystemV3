@@ -31,7 +31,7 @@ public class User
 
     }
 
-    //GETTERS
+    //GETTERS==========================================
     public String getNameFirst()
     {
         return nameFirst;
@@ -48,11 +48,19 @@ public class User
     public long getId() {
         return id;
     }
-    //GETTERS
-    //SETTERS
+    //GETTERS==========================================
+    //SETTERS===========================================
 
+    public void setNameFirst(String nameFirst) {
+        this.nameFirst = nameFirst;
+    }
+
+    public void setNameSecond(String nameSecond) {
+        this.nameSecond = nameSecond;
+    }
 
     public void setPin(String pin) {
         this.pin = pin;
     }
+    //SETTERS ==========================================
 }
