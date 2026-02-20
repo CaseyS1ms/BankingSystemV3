@@ -18,6 +18,8 @@ public class UserService
     BCryptPasswordEncoder bCryptPasswordEncoder;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private JwtUtil jwtUtil;
 
     String createUser(String firstName,String secondName)
     {
@@ -36,7 +38,7 @@ public class UserService
         return userRepository.findById(id);
     }
 
-    Boolean loginUser(long user_id, int pin)
+    String loginUser(long user_id, int pin)
     {
         Optional<User> temp = getUser(user_id);
         if(temp.isEmpty())
@@ -46,7 +48,14 @@ public class UserService
         User user = temp.get();
 
 
-        return passwordEncoder.matches(String.valueOf(pin), user.getPin());
+        if(passwordEncoder.matches(String.valueOf(pin), user.getPin()))
+        {
+            return jwtUtil.generateToken(user_id);
+        }
+        else
+        {
+            throw new InvalidCredentialsException("Error: Invalid Pin");
+        }
     }
 
 }

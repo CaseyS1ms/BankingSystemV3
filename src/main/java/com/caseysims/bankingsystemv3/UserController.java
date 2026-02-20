@@ -24,14 +24,7 @@ public class UserController
     @PostMapping("login")
     public String login(@RequestParam long user_id,@RequestParam int pin)
     {
-        if(userService.loginUser(user_id,pin))
-        {
-            return "Successful Login";
-        }
-        else
-        {
-            return "Unsuccessful Login";
-        }
+        return userService.loginUser(user_id,pin);
     }
 
 
